@@ -97,7 +97,7 @@ def open_scratch_buffer(contents, filetype):
     existing_buffer_window_id = vim.eval('bufwinnr("%s")' % BUFFER_NAME)
     if existing_buffer_window_id == '-1':
         vim.command('vsplit %s' % BUFFER_NAME)
-        vim.command('setlocal buftype=nofile bufhidden=hide nospell nobuflisted')
+        vim.command('setlocal buftype=nofile nospell')
         vim.command('set filetype=%s' % filetype)
     else:
         vim.command('%swincmd w' % existing_buffer_window_id)

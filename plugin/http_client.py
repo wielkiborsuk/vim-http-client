@@ -1,6 +1,5 @@
 import re
 import requests
-import sys
 
 from_cmdline = False
 try:
@@ -101,8 +100,8 @@ def open_scratch_buffer(contents, filetype):
     else:
         vim.command('%swincmd w' % existing_buffer_window_id)
 
-    vim.command('normal! ggdG')
     vim.current.buffer[:] = contents
+
 
 def do_request_from_buffer():
     win = vim.current.window
@@ -113,6 +112,7 @@ def do_request_from_buffer():
     print content_type
     if response:
         open_scratch_buffer(response, vim_ft)
+
 
 # Tests.
 
@@ -147,6 +147,7 @@ def run_tests():
         'some data'
     ]))
     test(resp['data'] == 'some data', 'POST data is passed with variable substitution.')
+
 
 if from_cmdline:
     run_tests()

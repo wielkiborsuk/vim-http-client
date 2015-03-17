@@ -11,6 +11,7 @@ except NameError:
 if not from_cmdline:
     import vim
 
+
 METHOD_REGEX = re.compile('^(GET|POST|DELETE|PUT|HEAD|OPTIONS|PATCH) (.*)$')
 HEADER_REGEX = re.compile('^([^ :]+):\\s*(.*)$')
 VAR_REGEX = re.compile('^# ?(:[^: ]+)\\s*=\\s*(.+)$')

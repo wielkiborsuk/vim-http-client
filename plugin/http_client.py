@@ -17,10 +17,6 @@ HEADER_REGEX = re.compile('^([^ :]+):\\s*(.*)$')
 VAR_REGEX = re.compile('^# ?(:[^: ]+)\\s*=\\s*(.+)$')
 
 
-def is_buffer_terminator(line):
-    return len(line.strip) == 0
-
-
 def replace_vars(string, variables):
     for var, val in variables.items():
         string = string.replace(var, val)
@@ -29,21 +25,6 @@ def replace_vars(string, variables):
 
 def is_comment(s):
     return s.startswith('#')
-
-
-def find_block(buf, line_num):
-    length = len(buf)
-    is_buffer_terminator = lambda s: s.strip == ''
-
-    block_start = line_num
-    while block_start > 0 and not is_buffer_terminator(buf[block_start]):
-        block_start -= 1
-
-    block_end = line_num
-    while block_end < length and not is_buffer_terminator(buf[block_end]):
-        block_end += 1
-
-    return buf[block_start:block_end + 1]
 
 
 def do_request(block):
@@ -85,6 +66,7 @@ def do_request(block):
 
     return display, response.headers.get('Content-Type', '').split(';')[0]
 
+
 # Vim methods.
 
 VIM_FILETYPES_BY_CONTENT_TYPE = {
@@ -94,6 +76,22 @@ VIM_FILETYPES_BY_CONTENT_TYPE = {
 }
 
 BUFFER_NAME = '__HTTP_Client_Response__'
+
+
+def find_block(buf, line_num):
+    length = len(buf)
+    is_buffer_terminator = lambda s: s.strip == ''
+
+    block_start = line_num
+    while block_start > 0 and not is_buffer_terminator(buf[block_start]):
+        block_start -= 1
+
+    block_end = line_num
+    while block_end < length and not is_buffer_terminator(buf[block_end]):
+        block_end += 1
+
+    return buf[block_start:block_end + 1]
+
 
 def open_scratch_buffer(contents, filetype):
     existing_buffer_window_id = vim.eval('bufwinnr("%s")' % BUFFER_NAME)

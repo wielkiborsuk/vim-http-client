@@ -2,6 +2,8 @@
 
 With vim-http-client, you can make HTTP calls from Vim, using the HTTP format you already know rather than learning new command line tools fraught with complex flags and escaped quotes. You can also parse the results right in Vim, syntax highlighted the way you expect.
 
+![Demo](https://raw.githubusercontent.com/aquach/vim-http-client/master/examples/demo.gif)
+
 ## Installation
 
 vim-http-client requires Vim compiled with python support and the [python `requests` library](http://docs.python-requests.org/en/latest/).

@@ -8,7 +8,7 @@ function! s:DoHTTPRequest()
   endif
 
   if !s:initialized_client
-    s:initialized_client = 1
+    let s:initialized_client = 1
     execute 'pyfile ' . s:script_path . '/http_client.py'
   end
 

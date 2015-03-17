@@ -1,0 +1,20 @@
+GET http://jsonip.com
+
+POST http://httpbin.org/post
+X-Custom-Header: four
+{ "data": { "hello": "three" }}
+
+GET http://www.telize.com/geoip?callback=?
+
+GET https://data.itpir.wm.edu/deflate/api.php?val=100USD1986USA&json=true
+
+GET http://coinabul.com/api.php
+
+GET http://www.myapifilms.com/search?title=Airplane!&format=JSON
+
+GET http://www.nactem.ac.uk/software/acromine/dictionary.py?sf=quandary
+
+GET https://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint8
+
+GET http://api.automeme.net/text.json
+

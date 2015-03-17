@@ -4,15 +4,17 @@ With vim-http-client, you can make HTTP calls from Vim, using the HTTP format yo
 
 ![Demo](https://raw.githubusercontent.com/aquach/vim-http-client/master/examples/demo.gif)
 
+See `examples/examples.txt` for other examples.
+
 ## Installation
 
 vim-http-client requires Vim compiled with python support and the [python `requests` library](http://docs.python-requests.org/en/latest/).
 
-To check if you have python support, try `vim --version | grep +python`.
+To check if you have Python support, try `vim --version | grep +python`.
 
-To check if you have the `requests` library, try `python -c 'import requests'`. If nothing is printed, you have the library. Otherwise, try `pip install requests` to get it. Most distros of Ubuntu already have both Vim with python support and requests.
+To check if you have the `requests` library, try `python -c 'import requests'`. If you get an error, try `pip install requests` to get the library. Many distros ships Python support with Vim and the `requests` library with Python.
 
-Once you have these, use your favorite Vim plugin manager to install `aquach/vim-http-client`.
+Once you have these, use your favorite Vim plugin manager to install `aquach/vim-http-client`!
 
 ## Usage
 

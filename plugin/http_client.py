@@ -29,7 +29,7 @@ def is_comment(s):
 
 def do_request(block):
     variables = dict((m.groups() for m in (VAR_REGEX.match(l) for l in block) if m))
-    block = [line for line in block if not is_comment(line) and line.strip != '']
+    block = [line for line in block if not is_comment(line) and line.strip() != '']
 
     if len(block) == 0:
         print 'Request was empty.'
@@ -80,7 +80,7 @@ BUFFER_NAME = '__HTTP_Client_Response__'
 
 def find_block(buf, line_num):
     length = len(buf)
-    is_buffer_terminator = lambda s: s.strip == ''
+    is_buffer_terminator = lambda s: s.strip() == ''
 
     block_start = line_num
     while block_start > 0 and not is_buffer_terminator(buf[block_start]):

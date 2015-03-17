@@ -77,9 +77,12 @@ def do_request(block):
     data = replace_vars(data, variables)
 
     response = requests.request(method, url, headers=headers, data=data)
-    display = (response.text.split('\n') +
-            ['', '// status code: {}'.format(response.status_code)] +
-            ['// {}: {}'.format(k, v) for k, v in response.headers.items()])
+    display = (
+        response.text.split('\n') +
+        ['', '// status code: %s' % response.status_code] +
+        ['// %s: %s' % (k, v) for k, v in response.headers.items()]
+    )
+
     return display, response.headers.get('Content-Type', '').split(';')[0]
 
 # Vim methods.

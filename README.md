@@ -18,7 +18,7 @@ Once you have these, use your favorite Vim plugin manager to install `aquach/vim
 
 ## Usage
 
-Put your cursor anywhere in a newline-delimited block of text and run `:HTTPClientDoRequest`. The text will be parsed and executed as a HTTP request, and its results will appear in a split.
+Put your cursor anywhere in a newline-delimited block of text and hit `<Leader>tt`. The text will be parsed and executed as a HTTP request, and its results will appear in a split. You can also directly invoke the HTTP client with `:call HTTPClientDoRequest()<cr>`. Here's the format of a request:
 
 ```
 # Comments start with #.
@@ -52,6 +52,12 @@ POST http://httpbin.org/post
 Each variable lives in a separate line in a comment and always starts with a colon. Variables are substituted with simple string substitution.
 
 The output appears in a new split. Syntax highlighting is interpreted from the `Content-Type` header of the result. It currently supports XML, JSON, and HTML; all others will get `ft=text`.
+
+## Configuration
+
+#### g:http_client_bind_hotkey (default 1)
+
+Controls whether or not `<Leader>tt` will run the HTTP client.
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 # vim-http-client
 
-Make HTTP calls from Vim with the HTTP format you already know, rather than `curl -X POST -b cookie=$1 -F csrf_token=$2 -F "request={\"user_id\":123}" http://example.org`. Parse the results right in Vim, syntax highlighted the way you expect!
+Make HTTP calls from Vim with the HTTP format you already know, rather than wrestling with `curl -X POST -b cookie=$1 -F csrf_token=$2 -F "request={\"user_id\":123}" http://example.org`. Parse the results right in Vim, syntax highlighted the way you expect!
 
 ![Demo](https://raw.githubusercontent.com/aquach/vim-http-client/master/examples/demo.gif)
 
@@ -45,7 +45,10 @@ Depending on where you put your cursor, the first or second request will execute
 # Second request.
 # :foo = bar
 POST http://httpbin.org/post
-{ "data": ":foo" }
+{
+  "data": ":foo",
+  "otherkey": "hello"
+}
 ```
 
 Each variable lives in a separate commented line and always starts with a colon. Variables are substituted with simple string substitution.

@@ -71,7 +71,7 @@ all others will get ft=text.
 Configuration                                        *http-client-configuration*
                                                      *g:http_client_bind_hotkey*
 
-*g:http_client_bind_hotkey*
+g:http_client_bind_hotkey
 
 Controls whether or not `<Leader>tt` will run the HTTP client. Defaults to 1.
 

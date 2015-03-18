@@ -1,6 +1,6 @@
 # vim-http-client
 
-With vim-http-client, you can make HTTP calls from Vim with the HTTP format you already know, rather than learning new command line tools fraught with complex flags and escaped quotes. You can also parse the results right in Vim, syntax highlighted the way you expect!
+Make HTTP calls from Vim with the HTTP format you already know, rather than `curl -X POST -b cookie=$1 -F csrf_token=$2 -F "request={\"user_id\":123}" http://example.org`. Parse the results right in Vim, syntax highlighted the way you expect!
 
 ![Demo](https://raw.githubusercontent.com/aquach/vim-http-client/master/examples/demo.gif)
 
@@ -10,7 +10,7 @@ See `examples/examples.txt` for other examples.
 
 vim-http-client requires Vim compiled with python support and the [python `requests` library](http://docs.python-requests.org/en/latest/).
 
-To check if you have Python support, try `vim --version | grep +python`.
+You likely have Python support, but you can check with `vim --version | grep +python`. MacVim comes with Python support.
 
 To check if you have the `requests` library, try `python -c 'import requests'`. If you get an error, try `pip install requests` to get the library. Many distros ship Python support with Vim and the `requests` library with Python.
 
@@ -18,7 +18,7 @@ Once you have these, use your favorite Vim plugin manager to install `aquach/vim
 
 ## Usage
 
-Put your cursor anywhere in a newline-delimited block of text and hit `<Leader>tt`. The text will be parsed and executed as a HTTP request, and its results will appear in a split. You can also directly invoke the HTTP client with `:call HTTPClientDoRequest()<cr>`. Here's the format of a request:
+Put your cursor anywhere in a newline-delimited block of text and hit `<Leader>tt`. `vim-http-client` will parse the text into a HTTP request, execute it, and display its results will appear in a split. You can also directly invoke the HTTP client with `:call HTTPClientDoRequest()<cr>`. The format mirrors HTTP's format:
 
 ```
 # Comments start with #.
@@ -44,12 +44,11 @@ Depending on where you put your cursor, the first or second request will execute
 ```
 # Second request.
 # :foo = bar
-# :asdf = 3
 POST http://httpbin.org/post
 { "data": ":foo" }
 ```
 
-Each variable lives in a separate line in a comment and always starts with a colon. Variables are substituted with simple string substitution.
+Each variable lives in a separate commented line and always starts with a colon. Variables are substituted with simple string substitution.
 
 If you'd like to pass form-encoded data, set your body like this:
 

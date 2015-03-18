@@ -13,7 +13,7 @@ if not from_cmdline:
 
 
 METHOD_REGEX = re.compile('^(GET|POST|DELETE|PUT|HEAD|OPTIONS|PATCH) (.*)$')
-HEADER_REGEX = re.compile('^([^ :]+):\\s*(.*)$')
+HEADER_REGEX = re.compile('^([^()<>@,;:\<>/\[\]?={}]+):\\s*(.*)$')
 VAR_REGEX = re.compile('^# ?(:[^: ]+)\\s*=\\s*(.+)$')
 
 
@@ -54,8 +54,13 @@ def do_request(block):
         else:
             break
 
-    data = '\n'.join(block)
-    data = replace_vars(data, variables)
+    data = [ replace_vars(l, variables) for l in block ]
+    if all([ '=' in l for l in data ]):
+      # Form data: build dict.
+      data = dict([ l.split('=', 1) for l in data ])
+    else:
+      # Straight data: just send it off as a string.
+      data = '\n'.join(block)
 
     response = requests.request(method, url, headers=headers, data=data)
     display = (
@@ -149,6 +154,13 @@ def run_tests():
         'some data'
     ]))
     test(resp['data'] == 'some data', 'POST data is passed with variable substitution.')
+
+    resp = extract_json(do_request([
+        'POST http://httpbin.org/post',
+        'forma=a',
+        'formb=b',
+    ]))
+    test(resp['form']['forma'] == 'a', 'POST form data is passed.')
 
 
 if from_cmdline:

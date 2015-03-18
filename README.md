@@ -51,6 +51,17 @@ POST http://httpbin.org/post
 
 Each variable lives in a separate line in a comment and always starts with a colon. Variables are substituted with simple string substitution.
 
+If you'd like to pass form-encoded data, set your body like this:
+
+```
+<key-1>=<value-1>
+<key-2>=<value-2>
+...
+<key-n>=<value-n>
+```
+
+See `examples/examples.txt` for more examples.
+
 The output appears in a new split. Syntax highlighting is interpreted from the `Content-Type` header of the result. It currently supports XML, JSON, and HTML; all others will get `ft=text`.
 
 ## Configuration

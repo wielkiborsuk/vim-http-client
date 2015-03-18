@@ -22,5 +22,5 @@ endfunction
 command! -nargs=0 HTTPClientDoRequest call <SID>DoHTTPRequest()
 
 if g:http_client_bind_hotkey
-  nnoremap <silent> <unique> <Leader>tt :HTTPClientDoRequest<cr>
+  silent nnoremap <unique> <Leader>tt :HTTPClientDoRequest<cr>
 endif

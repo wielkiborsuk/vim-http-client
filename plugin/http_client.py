@@ -109,9 +109,10 @@ def do_request_from_buffer():
     win = vim.current.window
     line_num = win.cursor[0] - 1
     block = find_block(win.buffer, line_num)
-    response, content_type = do_request(block)
-    vim_ft = VIM_FILETYPES_BY_CONTENT_TYPE.get(content_type, 'text')
-    if response:
+    result = do_request(block)
+    if result:
+        response, content_type = result
+        vim_ft = VIM_FILETYPES_BY_CONTENT_TYPE.get(content_type, 'text')
         open_scratch_buffer(response, vim_ft)
 
 

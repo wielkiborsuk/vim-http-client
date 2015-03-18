@@ -98,10 +98,10 @@ def open_scratch_buffer(contents, filetype):
     if existing_buffer_window_id == '-1':
         vim.command('vsplit %s' % BUFFER_NAME)
         vim.command('setlocal buftype=nofile nospell')
-        vim.command('set filetype=%s' % filetype)
     else:
         vim.command('%swincmd w' % existing_buffer_window_id)
 
+    vim.command('set filetype=%s' % filetype)
     vim.current.buffer[:] = contents
 
 
@@ -111,7 +111,6 @@ def do_request_from_buffer():
     block = find_block(win.buffer, line_num)
     response, content_type = do_request(block)
     vim_ft = VIM_FILETYPES_BY_CONTENT_TYPE.get(content_type, 'text')
-    print content_type
     if response:
         open_scratch_buffer(response, vim_ft)
 

@@ -74,4 +74,4 @@ Controls whether or not `<Leader>tt` will run the HTTP client. Regardless of the
 
 ## Contributing
 
-This plugin is current quite simple. Contributions, suggestions, and feedback are all welcomed!
+This plugin is currently quite simple. Contributions, suggestions, and feedback are all welcomed!

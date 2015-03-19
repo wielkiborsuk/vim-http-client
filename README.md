@@ -1,6 +1,6 @@
 # vim-http-client
 
-Make HTTP calls from Vim with the HTTP format you already know, rather than wrestling with `curl -X POST -b cookie=$1 -F csrf_token=$2 -F "request={\"user_id\":123}" http://example.org`. Parse the results right in Vim, syntax highlighted the way you expect!
+Make HTTP calls from Vim with the HTTP format you already know, rather than wrestling with `curl -X POST -b cookie=$1 -F csrf_token=$2 -F "request={\"user_id\":123}" http://example.org`! Then parse the results right in Vim, syntax highlighted the way you expect!
 
 ![Demo](https://raw.githubusercontent.com/aquach/vim-http-client/master/examples/demo.gif)
 
@@ -14,7 +14,7 @@ You likely have Python support, but you can check with `vim --version | grep +py
 
 To check if you have the `requests` library, try `python -c 'import requests'`. If you get an error, try `pip install requests` to get the library. Many distros ship Python support with Vim and the `requests` library with Python.
 
-Once you have these, use your favorite Vim plugin manager to install `aquach/vim-http-client`!
+Once you have these, use your favorite Vim plugin manager to install `aquach/vim-http-client`, or copy `plugin` and `doc` into your `.vim` folder.
 
 ## Usage
 
@@ -64,14 +64,14 @@ If you'd like to pass form-encoded data, set your body like this:
 
 See `examples/examples.txt` for more examples.
 
-The output appears in a new split. Syntax highlighting is interpreted from the `Content-Type` header of the result. It currently supports XML, JSON, and HTML; all others will get `ft=text`.
+The output appears in a new split. Based on the `Content-Type` header of the HTTP response, vim-http-client chooses a filetype for syntax highlighting. It currently supports XML, JSON, and HTML; all others will get `ft=text`.
 
 ## Configuration
 
 #### g:http_client_bind_hotkey (default 1)
 
-Controls whether or not `<Leader>tt` will run the HTTP client.
+Controls whether or not `<Leader>tt` will run the HTTP client. Regardless of the setting, vim-http-client will not overwrite your existing `<Leader>tt` mapping if it exists.
 
 ## Contributing
 
-This plugin is so far very simple. Contributions, suggestions, and feedback are all welcomed!
+This plugin is current quite simple. Contributions, suggestions, and feedback are all welcomed!

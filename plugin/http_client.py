@@ -66,13 +66,22 @@ def do_request(block, buf):
       data = '\n'.join(block)
 
     response = requests.request(method, url, headers=headers, data=data)
+    content_type = response.headers.get('Content-Type', '').split(';')[0]
+
+    if content_type == 'application/json':
+        import json
+        response_body = json.dumps(response.json(), sort_keys=True, indent=2, separators=(',', ': '))
+    else:
+        response_body = response.text
+
+
     display = (
-        response.text.split('\n') +
+        response_body.split('\n') +
         ['', '// status code: %s' % response.status_code] +
         ['// %s: %s' % (k, v) for k, v in response.headers.items()]
     )
 
-    return display, response.headers.get('Content-Type', '').split(';')[0]
+    return display, content_type
 
 
 # Vim methods.

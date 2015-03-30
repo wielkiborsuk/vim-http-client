@@ -15,6 +15,7 @@ if not from_cmdline:
 METHOD_REGEX = re.compile('^(GET|POST|DELETE|PUT|HEAD|OPTIONS|PATCH) (.*)$')
 HEADER_REGEX = re.compile('^([^()<>@,;:\<>/\[\]?={}]+):\\s*(.*)$')
 VAR_REGEX = re.compile('^# ?(:[^: ]+)\\s*=\\s*(.+)$')
+GLOBAL_VAR_REGEX = re.compile('^# ?(\$[^$ ]+)\\s*=\\s*(.+)$')
 
 
 def replace_vars(string, variables):
@@ -27,8 +28,10 @@ def is_comment(s):
     return s.startswith('#')
 
 
-def do_request(block):
-    variables = dict((m.groups() for m in (VAR_REGEX.match(l) for l in block) if m))
+def do_request(block, buf):
+    variables = dict((m.groups() for m in (GLOBAL_VAR_REGEX.match(l) for l in buf) if m))
+    variables.update(dict((m.groups() for m in (VAR_REGEX.match(l) for l in block) if m)))
+
     block = [line for line in block if not is_comment(line) and line.strip() != '']
 
     if len(block) == 0:
@@ -114,7 +117,7 @@ def do_request_from_buffer():
     win = vim.current.window
     line_num = win.cursor[0] - 1
     block = find_block(win.buffer, line_num)
-    result = do_request(block)
+    result = do_request(block, win.buffer)
     if result:
         response, content_type = result
         vim_ft = VIM_FILETYPES_BY_CONTENT_TYPE.get(content_type, 'text')
@@ -140,27 +143,34 @@ def run_tests():
         'GET http://httpbin.org/headers',
         'X-Hey: :a',
         '# comment'
-    ]))
+    ], []))
     test(resp['headers']['X-Hey'] == 'barf', 'Headers are passed with variable substitution.')
 
     resp = extract_json(do_request([
         '# :a = barf',
         'GET http://httpbin.org/get?data=:a'
-    ]))
+    ], []))
     test(resp['args']['data'] == 'barf', 'GET data is passed with variable substitution.')
 
     resp = extract_json(do_request([
         'POST http://httpbin.org/post',
         'some data'
-    ]))
+    ], []))
     test(resp['data'] == 'some data', 'POST data is passed with variable substitution.')
 
     resp = extract_json(do_request([
         'POST http://httpbin.org/post',
         'forma=a',
         'formb=b',
-    ]))
+    ], []))
     test(resp['form']['forma'] == 'a', 'POST form data is passed.')
+
+    resp = extract_json(do_request([
+        'POST http://$global/post',
+        'forma=a',
+        'formb=b',
+    ], [ '# $global = httpbin.org']))
+    test(resp['form']['forma'] == 'a', 'Global variables are substituted.')
 
 
 if from_cmdline:

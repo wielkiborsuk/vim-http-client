@@ -51,7 +51,20 @@ POST http://httpbin.org/post
 }
 ```
 
-Each variable lives in a separate commented line and always starts with a colon. Variables are substituted with simple string substitution.
+Each variable lives in a separate commented line. Variables beginning with `:` are request variables only considered in the request block they live in. Variables beginning with `$` are global variables that affect all requests in the entire buffer. Local variables always override global variables.
+
+```
+# $endpoint = http://httpbin.org
+
+GET $endpoint/get
+
+# :request_var = 3
+POST $endpoint/post
+
+GET $endpoint/resource
+```
+
+Variables are substituted with simple string substitution.
 
 If you'd like to pass form-encoded data, set your body like this:
 

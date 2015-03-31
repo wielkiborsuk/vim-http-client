@@ -88,11 +88,12 @@ def do_request(block, buf):
 
 # Vim methods.
 
-VIM_FILETYPES_BY_CONTENT_TYPE = {
-    'application/json': 'javascript',
-    'application/xml': 'xml',
-    'text/html': 'html'
-}
+def vim_filetypes_by_content_type():
+    return {
+        'application/json': vim.eval('g:http_client_json_ft'),
+        'application/xml': 'xml',
+        'text/html': 'html'
+    }
 
 BUFFER_NAME = '__HTTP_Client_Response__'
 
@@ -131,7 +132,7 @@ def do_request_from_buffer():
     result = do_request(block, win.buffer)
     if result:
         response, content_type = result
-        vim_ft = VIM_FILETYPES_BY_CONTENT_TYPE.get(content_type, 'text')
+        vim_ft = vim_filetypes_by_content_type().get(content_type, 'text')
         open_scratch_buffer(response, vim_ft)
 
 

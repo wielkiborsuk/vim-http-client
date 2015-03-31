@@ -85,6 +85,10 @@ The output appears in a new split. Based on the `Content-Type` header of the HTT
 
 Controls whether or not `<Leader>tt` will run the HTTP client. Regardless of the setting, vim-http-client will not overwrite your existing `<Leader>tt` mapping if it exists.
 
+#### g:http_client_json_ft (default 'javascript')
+
+Sets the vim filetype when vim-http-client detects a JSON response. Though JSON-specific syntax highlighting like [vim-json](https://github.com/elzr/vim-json) provides prettier highlighting than the default Javascript highlighting, Javascript highlighting comes with Vim and is therefore a safer default. Use this setting to configure the filetype to your liking.
+
 ## Contributing
 
 This plugin is currently quite simple. Contributions, suggestions, and feedback are all welcomed!

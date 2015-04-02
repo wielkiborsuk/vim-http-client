@@ -73,7 +73,8 @@ def do_request(block, buf):
     response_body = response.text
     if content_type == 'application/json':
         try:
-            response_body = json.dumps(response.json(), sort_keys=True, indent=2, separators=(',', ': '))
+            response_body = json.dumps(response.json(), sort_keys=True, indent=2,
+                separators=(',', ': '))
         except simplejson.scanner.JSONDecodeError:
             pass
 

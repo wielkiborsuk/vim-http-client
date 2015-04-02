@@ -1,7 +1,7 @@
 import json
 import re
 import requests
-import simplejson
+import json
 
 from_cmdline = False
 try:
@@ -73,9 +73,9 @@ def do_request(block, buf):
     response_body = response.text
     if content_type == 'application/json':
         try:
-            response_body = json.dumps(response.json(), sort_keys=True, indent=2,
-                separators=(',', ': '))
-        except simplejson.scanner.JSONDecodeError:
+            response_body = json.dumps(json.loads(response.text), sort_keys=True,
+                    indent=2, separators=(',', ': '))
+        except ValueError:
             pass
 
     display = (

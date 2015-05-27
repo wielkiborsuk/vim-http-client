@@ -1,7 +1,6 @@
 import json
 import re
 import requests
-import json
 
 from_cmdline = False
 try:
@@ -18,6 +17,7 @@ METHOD_REGEX = re.compile('^(GET|POST|DELETE|PUT|HEAD|OPTIONS|PATCH) (.*)$')
 HEADER_REGEX = re.compile('^([^()<>@,;:\<>/\[\]?={}]+):\\s*(.*)$')
 VAR_REGEX = re.compile('^# ?(:[^: ]+)\\s*=\\s*(.+)$')
 GLOBAL_VAR_REGEX = re.compile('^# ?(\$[^$ ]+)\\s*=\\s*(.+)$')
+FILE_REGEX = re.compile("!((?:file)|(?:(?:content)))\((.+)\)")
 
 
 def replace_vars(string, variables):
@@ -60,14 +60,22 @@ def do_request(block, buf):
             break
 
     data = [ replace_vars(l, variables) for l in block ]
+    files = None
     if all([ '=' in l for l in data ]):
-      # Form data: build dict.
-      data = dict([ l.split('=', 1) for l in data ])
+      # Form data: separate entries into data dict, and files dict
+      key_value_pairs = dict([ l.split('=', 1) for l in data ])
+      def to_file(expr):
+        type, arg = FILE_REGEX.match(expr).groups()
+        arg = arg.replace('\\(', '(').replace('\\)', ')')
+        return open(arg, 'rb') if type == 'file' else (arg)
+
+      files = dict(map(lambda (k,v): (k, to_file(v)), filter(lambda (k,v): FILE_REGEX.match(v), key_value_pairs.items())))
+      data = dict(filter(lambda (k,v): not FILE_REGEX.match(v), key_value_pairs.items()))
     else:
       # Straight data: just send it off as a string.
       data = '\n'.join(block)
 
-    response = requests.request(method, url, headers=headers, data=data)
+    response = requests.request(method, url, headers=headers, data=data, files=files)
     content_type = response.headers.get('Content-Type', '').split(';')[0]
 
     response_body = response.text
@@ -184,6 +192,38 @@ def run_tests():
         'formb=b',
     ], [ '# $global = httpbin.org']))
     test(resp['form']['forma'] == 'a', 'Global variables are substituted.')
+
+    import os
+    from tempfile import NamedTemporaryFile
+
+    SAMPLE_FILE_CONTENT = 'sample file content'
+
+    temp_file = NamedTemporaryFile(delete = False)
+    temp_file.write(SAMPLE_FILE_CONTENT)
+    temp_file.close()
+    resp = extract_json(do_request([
+        'POST http://httpbin.org/post',
+        'forma=a',
+        'formb=b',
+        "formc=!file(%s)" % temp_file.name,
+    ], []))
+    test(resp['files']['formc'] == SAMPLE_FILE_CONTENT, 'Files given as path are sent properly.')
+    test(not 'formc' in resp['form'], 'File not included in form data.')
+    os.unlink(temp_file.name)
+
+    resp = extract_json(do_request([
+        'POST http://httpbin.org/post',
+        'forma=a',
+        'formb=b',
+        "formc=!content(%s)" % SAMPLE_FILE_CONTENT,
+    ], []))
+    test(resp['files']['formc'] == SAMPLE_FILE_CONTENT, 'Files given as content are sent properly.')
+
+    resp = extract_json(do_request([
+        'POST http://httpbin.org/post',
+        "c=!content(foo \\(bar\\))",
+    ], []))
+    test(resp['files']['c'] == 'foo (bar)', 'Escaped parenthesis should be unescaped during request')
 
 
 if from_cmdline:

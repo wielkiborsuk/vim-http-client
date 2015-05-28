@@ -12,3 +12,10 @@ POST http://httpbin.org/post
 X-Custom-Header: four
 request={ "data": { "hello": "three" }}
 othervalue=3
+
+# Example of sending files (note that you have to have file '/tmp/sample.txt' to run this example)
+POST http://httpbin.org/post
+key1=value1
+key2=value2
+key3=!file(/tmp/sample.txt)
+key4=!content(my sample content)

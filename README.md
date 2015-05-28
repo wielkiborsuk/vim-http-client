@@ -75,6 +75,18 @@ If you'd like to pass form-encoded data, set your body like this:
 <key-n>=<value-n>
 ```
 
+You can also send files using absolute path to file: `!file(PATH_TO_FILE)` or by simply providing it's content: `!content(my file content)`.
+
+Example:
+```
+POST http://httpbin.org/post
+foo=vim rocks
+bar=!file(/tmp/my_file.txt)
+baz=!content(sample content)
+```
+
+
+
 See `examples/examples.txt` for more examples.
 
 The output appears in a new split. Based on the `Content-Type` header of the HTTP response, vim-http-client chooses a filetype for syntax highlighting. It currently supports XML, JSON, and HTML; all others will get `ft=text`.

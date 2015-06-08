@@ -81,8 +81,10 @@ def do_request(block, buf):
     response_body = response.text
     if content_type == 'application/json':
         try:
-            response_body = json.dumps(json.loads(response.text), sort_keys=True,
-                    indent=2, separators=(',', ': '))
+            response_body = json.dumps(
+                json.loads(response.text), sort_keys=True, indent=2,
+                separators=(',', ': '),
+                ensure_ascii=vim.eval('g:http_client_json_escape_utf')=='1')
         except ValueError:
             pass
 

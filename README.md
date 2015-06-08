@@ -101,6 +101,11 @@ Controls whether or not `<Leader>tt` will run the HTTP client. Regardless of the
 
 Sets the vim filetype when vim-http-client detects a JSON response. Though JSON-specific syntax highlighting like [vim-json](https://github.com/elzr/vim-json) provides prettier highlighting than the default Javascript highlighting, Javascript highlighting comes with Vim and is therefore a safer default. Use this setting to configure the filetype to your liking.
 
+#### g:http_client_json_escape_utf (default 1)
+
+By default json.dumps will escape any utf8 characters beyond ascii range. This option (if set to 0) allows you to get the actual special characters instead of \uxxxx encoded ones.
+
+
 ## Contributing
 
 This plugin is currently quite simple. Contributions, suggestions, and feedback are all welcomed!

@@ -91,6 +91,7 @@ all others will get ft=text.
 Configuration                                        *http-client-configuration*
                                                      *g:http_client_bind_hotkey*
                                                          *g:http_client_json_ft*
+                                                 *g:http_client_json_escape_utf*
 
 g:http_client_bind_hotkey (default 1)
 
@@ -103,6 +104,12 @@ JSON-specific syntax highlighting provides prettier highlighting than the
 default Javascript highlighting, Javascript highlighting comes with Vim and is
 therefore a safer default. Use this setting to configure the filetype to your
 liking.
+
+g:http_client_json_escape_utf (default 1)
+
+By default json.dumps will escape any utf8 characters beyond ascii range. This
+option (if set to 0) allows you to get the actual special characters instead
+of \uxxxx encoded ones.
 
 ==============================================================================
 Installation                                          *http-client-installation*

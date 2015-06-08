@@ -9,6 +9,10 @@ if !exists('http_client_json_ft')
   let g:http_client_json_ft = 'javascript'
 endif
 
+if !exists('http_client_json_escape_utf')
+  let g:http_client_json_escape_utf = 1
+endif
+
 function! s:DoHTTPRequest()
   if !has('python')
     echo 'Error: this plugin requires vim compiled with python support.'

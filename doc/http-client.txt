@@ -92,6 +92,7 @@ Configuration                                        *http-client-configuration*
                                                      *g:http_client_bind_hotkey*
                                                          *g:http_client_json_ft*
                                                  *g:http_client_json_escape_utf*
+                                                   *g:http_client_result_vsplit*
 
 g:http_client_bind_hotkey (default 1)
 
@@ -110,6 +111,11 @@ g:http_client_json_escape_utf (default 1)
 By default json.dumps will escape any utf8 characters beyond ascii range. This
 option (if set to 0) allows you to get the actual special characters instead
 of \uxxxx encoded ones.
+
+g:http_client_result_vsplit (default 1)
+
+By default the request result appears in a vertical split. This option (if set
+to 0) allows to display the result in a horizontal split.
 
 ==============================================================================
 Installation                                          *http-client-installation*

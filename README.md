@@ -107,7 +107,7 @@ By default json.dumps will escape any utf8 characters beyond ascii range. This o
 
 #### g:http_client_result_vsplit (default 1)
 
-By default the request result appears in a vertical split. This option (if set to 0) allows to display the result in a horizontal split.
+By default the request result appears in a vertical split. Setting this option to 0 displays the result in a horizontal split.
 
 
 ## Contributing

@@ -105,6 +105,10 @@ Sets the vim filetype when vim-http-client detects a JSON response. Though JSON-
 
 By default json.dumps will escape any utf8 characters beyond ascii range. This option (if set to 0) allows you to get the actual special characters instead of \uxxxx encoded ones.
 
+#### g:http_client_result_vsplit (default 1)
+
+By default the request result appears in a vertical split. Setting this option to 0 displays the result in a horizontal split.
+
 
 ## Contributing
 

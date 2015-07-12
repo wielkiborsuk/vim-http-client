@@ -128,9 +128,10 @@ def open_scratch_buffer(contents, filetype):
     existing_buffer_window_id = vim.eval('bufwinnr("%s")' % BUFFER_NAME)
     if existing_buffer_window_id == '-1':
         if vim.eval('g:http_client_result_vsplit') == '1':
-            vim.command('vsplit %s' % BUFFER_NAME)
+            split_cmd = 'vsplit'
         else:
-            vim.command('split %s' % BUFFER_NAME)
+            split_cmd = 'split'
+        vim.command('rightbelow %s %s' % (split_cmd, BUFFER_NAME))
         vim.command('setlocal buftype=nofile nospell')
     else:
         vim.command('%swincmd w' % existing_buffer_window_id)

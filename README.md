@@ -20,6 +20,7 @@ Once you have these, use your favorite Vim plugin manager to install `aquach/vim
 
 Put your cursor anywhere in a newline-delimited block of text and hit `<Leader>tt`. `vim-http-client` will parse the text into a HTTP request, execute it, and display its results will appear in a split. You can also directly invoke the HTTP client with `:call HTTPClientDoRequest()<cr>`. The format mirrors HTTP's format:
 
+
 ```
 # Comments start with #.
 # First request.
@@ -85,6 +86,7 @@ bar=!file(/tmp/my_file.txt)
 baz=!content(sample content)
 ```
 
+You can also recall the last request by `<Leader>tr`. This works from anywhere, since the request parameters are saved in a global vim variable `g:http_client_last_request`. It's also possible to call the command directly as :call HTTPClientRepeatRequest()<cr>. Of course this only works after at least one call.
 
 
 See `examples/examples.txt` for more examples.

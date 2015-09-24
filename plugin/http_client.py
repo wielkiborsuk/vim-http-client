@@ -75,7 +75,15 @@ def do_request(block, buf):
       # Straight data: just send it off as a string.
       data = '\n'.join(block)
 
+    # save parameters for 'last call' functionality
+    vim.command("let g:http_client_last_request='{}'".format(
+        json.dumps((method, url, headers, data, files))))
+
     response = requests.request(method, url, headers=headers, data=data, files=files)
+    return process_response(response)
+
+
+def process_response(response):
     content_type = response.headers.get('Content-Type', '').split(';')[0]
 
     response_body = response.text
@@ -95,7 +103,6 @@ def do_request(block, buf):
     )
 
     return display, content_type
-
 
 # Vim methods.
 
@@ -145,6 +152,19 @@ def do_request_from_buffer():
     line_num = win.cursor[0] - 1
     block = find_block(win.buffer, line_num)
     result = do_request(block, win.buffer)
+    if result:
+        response, content_type = result
+        vim_ft = vim_filetypes_by_content_type().get(content_type, 'text')
+        open_scratch_buffer(response, vim_ft)
+
+
+def repeat_last_request():
+    last_request = vim.eval('g:http_client_last_request')
+    (method, url, headers, data, files) = json.loads(last_request)
+
+    response = requests.request(method, url, headers=headers, data=data, files=files)
+    result = process_response(response)
+
     if result:
         response, content_type = result
         vim_ft = vim_filetypes_by_content_type().get(content_type, 'text')

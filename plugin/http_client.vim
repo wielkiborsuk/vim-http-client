@@ -33,6 +33,28 @@ endfunction
 
 command! -nargs=0 HTTPClientDoRequest call <SID>DoHTTPRequest()
 
+function! s:DoLastHTTPRequest()
+  if !has('python')
+    echo 'Error: this plugin requires vim compiled with python support.'
+    finish
+  endif
+
+  if !exists('g:http_client_last_request')
+    echo 'There was no earlier http request recorded yet.'
+    finish
+  endif
+
+  if !s:initialized_client
+    let s:initialized_client = 1
+    execute 'pyfile ' . s:script_path . '/http_client.py'
+  endif
+
+  python repeat_last_request()
+endfunction
+
+command! -nargs=0 HTTPClientRepeatRequest call <SID>DoLastHTTPRequest()
+
 if g:http_client_bind_hotkey
   silent! nnoremap <unique> <Leader>tt :HTTPClientDoRequest<cr>
+  silent! nnoremap <unique> <Leader>tr :HTTPClientRepeatRequest<cr>
 endif

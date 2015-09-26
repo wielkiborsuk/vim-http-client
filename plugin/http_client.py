@@ -125,6 +125,7 @@ def find_block(buf, line_num):
 
 
 def open_scratch_buffer(contents, filetype):
+    previous_window = vim.current.window
     existing_buffer_window_id = vim.eval('bufwinnr("%s")' % BUFFER_NAME)
     if existing_buffer_window_id == '-1':
         if vim.eval('g:http_client_result_vsplit') == '1':
@@ -138,6 +139,9 @@ def open_scratch_buffer(contents, filetype):
 
     vim.command('set filetype=%s' % filetype)
     vim.current.buffer[:] = contents
+
+    if vim.eval('g:http_client_silent_split') == '1':
+        vim.current.window = previous_window
 
 
 def do_request_from_buffer():

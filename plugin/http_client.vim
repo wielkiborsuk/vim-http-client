@@ -17,6 +17,10 @@ if !exists('http_client_result_vsplit')
   let g:http_client_result_vsplit = 1
 endif
 
+if !exists('http_client_silent_split')
+  let g:http_client_silent_split = 1
+endif
+
 function! s:DoHTTPRequest()
   if !has('python')
     echo 'Error: this plugin requires vim compiled with python support.'

@@ -140,7 +140,7 @@ def open_scratch_buffer(contents, filetype):
     vim.command('set filetype=%s' % filetype)
     vim.current.buffer[:] = contents
 
-    if vim.eval('g:http_client_silent_split') == '1':
+    if vim.eval('g:http_client_focus_output_window') != '1':
         vim.current.window = previous_window
 
 

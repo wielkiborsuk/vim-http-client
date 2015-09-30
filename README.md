@@ -109,9 +109,9 @@ By default json.dumps will escape any utf8 characters beyond ascii range. This o
 
 By default the request result appears in a vertical split. Setting this option to 0 displays the result in a horizontal split.
 
-#### g:http_client_silent_split (default 1)
+#### g:http_client_focus_output_window (default 1)
 
-By default the focus will return to the window with request definitions. If set to 0 the output window will get the focus.
+By default the focus will go to the output window. If set to 0 the focus will return to the window with request definitions.
 
 
 ## Contributing
